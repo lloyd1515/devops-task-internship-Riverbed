@@ -7,8 +7,8 @@ Acest document descrie arhitectura sistemului FastAPI + Redis și fluxul pipelin
 ## 🖥️ Topologia Aplicației (Docker Compose)
 
 Aplicația este formată din două containere care rulează pe aceeași rețea Docker implicită (bridge network):
-1. **`web`**: FastAPI rulat pe portul `8000`. Expune portul `8000` către exterior.
-2. **`redis`**: Instanță de Redis Cache care stochează vizitele în memorie.
+- **web** — FastAPI rulat pe portul `8000`. Expune portul `8000` către exterior.
+- **redis** — Instanță de Redis Cache care stochează vizitele în memorie.
 
 ```mermaid
 graph LR
@@ -45,8 +45,8 @@ sequenceDiagram
 ```
 
 Pentru endpoint-urile noi solicitate în [README.md](../../README.md):
-- **`GET /visits/count`**: Citește valoarea folosind `r.get("visits")` fără să o incrementeze.
-- **`POST /visits/reset`**: Resetează valoarea cu `r.set("visits", 0)`.
+- **GET /visits/count** — Citește valoarea folosind `r.get("visits")` fără să o incrementeze.
+- **POST /visits/reset** — Resetează valoarea cu `r.set("visits", 0)`.
 
 ---
 
