@@ -1,0 +1,14 @@
+{
+	"nodes":[
+		{"id":"node_fastapi","type":"text","text":"## 🚀 FastAPI Web App\n- **Fișier principal**: `app/main.py`\n- **Port intern**: `8000`\n- **Port extern**: `8000` (corectat de la 8080)\n- **Endpoint-uri**:\n  - `GET /health` (status & conexiune Redis)\n  - `GET /visits` (incrementare contor)\n  - `GET /visits/count` (citire contor)\n  - `POST /visits/reset` (resetare)\n  - `GET /index` (UI minimal)","x":-120,"y":-220,"width":440,"height":320},
+		{"id":"node_ci","type":"text","text":"## 🤖 GitHub Actions CI Pipeline\n- **Cale**: `.github/workflows/ci.yml`\n- **Trigger**: Push pe orice branch / PR pe `main`.\n- **Joburi**:\n  - `test`: Setup Python 3.11 -> Install deps -> pytest.\n  - `docker-build`: Build imagine Docker (`intern-task-devops:ci`).","x":-920,"y":150,"width":640,"height":290},
+		{"id":"node_compose","type":"text","text":"## 🐳 Docker Compose Config\n- **Fișier**: `docker-compose.yml`\n- **Relații servicii**: `web` depinde de `redis` (`depends_on`).\n- **Rețea**: Implicită (bridge), permițând rezoluția numelor serviciilor.\n- **Healthcheck**: Adăugat pe serviciul `web` verificând `/health` la intervale stabilite.","x":-40,"y":400,"width":680,"height":180},
+		{"id":"node_redis","type":"text","text":"## 🗄️ Redis Cache\n- **Imagine**: `redis:7-alpine`\n- **Serviciu compose**: `redis`\n- **Port**: `6379`\n- **Host utilizat**: `redis` (Docker DNS intern, nu `localhost`)\n- **Utilizare**: Stocarea și gestionarea numărului de vizite prin cheia `\"visits\"`.","x":880,"y":-140,"width":620,"height":200}
+	],
+	"edges":[
+		{"id":"edge_web_redis","fromNode":"node_fastapi","fromSide":"right","toNode":"node_redis","toSide":"left","label":"Conexiune TCP (port 6379, host=redis)"},
+		{"id":"edge_compose_web","fromNode":"node_compose","fromSide":"top","toNode":"node_fastapi","toSide":"bottom","label":"Gestionează & Configurează"},
+		{"id":"edge_compose_redis","fromNode":"node_compose","fromSide":"top","toNode":"node_redis","toSide":"bottom","label":"Gestionează & Configurează"},
+		{"id":"edge_ci_code","fromNode":"node_ci","fromSide":"right","toNode":"node_fastapi","toSide":"left","label":"Rulează teste și linter"}
+	]
+}
