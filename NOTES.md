@@ -104,3 +104,50 @@ Următoarele optimizări sunt evidențiate pe baza logurilor de rulare actuale a
 ## 5. Întrebări / observații
 
 (Orice nu a fost clar, orice ai vrea să discuți cu noi.)
+
+---
+
+## 6. Ghid de rulare și testare (Cum rulezi totul)
+
+Pentru a asigura validitatea cerinței de livrare, iată instrucțiunile clare pentru pornirea, utilizarea și testarea întregii soluții:
+
+### A. Pornirea aplicației (Docker Compose)
+1. **Configurarea mediului**: Asigură-te că există fișierul `.env` (creat prin copierea fișierului template [.env.example](file:///C:/Users/vlads/Documents/ForJobs/Riverbed/devops-task-internship%201/.env.example)):
+   ```bash
+   copy .env.example .env
+   ```
+2. **Pornirea serviciilor**: Rulează comanda de build și start în Docker Compose:
+   ```bash
+   docker compose up --build
+   ```
+   Această comandă compilează imaginea Docker optimizată (care rulează sub `appuser` non-privileged pe portul `8000`) și instalează instanța Redis de backend.
+
+### B. Accesarea și Verificarea Manuală a Endpoint-urilor
+Odată ce serviciul `web` este marcat ca `healthy` (verificabil cu `docker compose ps`), poți accesa următoarele adrese locale:
+* **UI Minimal**: [http://localhost:8000/index](http://localhost:8000/index) — Interfața web premium pentru vizualizarea vizitelor și resetarea numărătorului.
+* **Health Check**: [http://localhost:8000/health](http://localhost:8000/health) — Verifică starea API-ului și a conexiunii Redis (`{"status": "ok", "redis": true}`).
+* **Incrementare Vizite**: [http://localhost:8000/visits](http://localhost:8000/visits) — Incrementează numărul de vizite.
+* **Citire Vizite (fără incrementare)**: [http://localhost:8000/visits/count](http://localhost:8000/visits/count) — Întoarce valoarea curentă a contorului.
+* **Resetare Vizite (POST)**: [http://localhost:8000/visits/reset](http://localhost:8000/visits/reset) — Resetează contorul la 0.
+
+### C. Rularea Testelor Automate (Unitare & Monkey)
+Testele se află în directorul [tests/](file:///C:/Users/vlads/Documents/ForJobs/Riverbed/devops-task-internship%201/tests/) și pot fi rulate în două moduri:
+1. **Rulare în containerul Docker (recomandat - nu necesită instalări locale)**:
+   Montează codul sursă și testele temporar și rulează pytest folosind imaginea build-uită:
+   ```bash
+   docker run --rm -v "%cd%:/code" -w /code devops-task-internship1-web pytest -v
+   ```
+   *(Pe Linux/macOS folosește `$(pwd)` în loc de `%cd%`)*
+2. **Rulare locală (necesită Python 3.11+)**:
+   Instalează dependințele din [app/requirements.txt](file:///C:/Users/vlads/Documents/ForJobs/Riverbed/devops-task-internship%201/app/requirements.txt) și rulează pytest local:
+   ```bash
+   pip install -r app/requirements.txt
+   pytest -v
+   ```
+
+### D. Rularea Linterului
+Pentru a verifica conformitatea stilului de cod (step-ul de linting din CI):
+```bash
+ruff check app/
+```
+
