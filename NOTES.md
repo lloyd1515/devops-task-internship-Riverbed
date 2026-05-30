@@ -72,10 +72,10 @@ Pentru fiecare problemă, scrie 2-3 propoziții:
 
 Fii cinstit. Nu pierzi puncte dacă spui adevărul, dimpotrivă.
 
-- **Ce ai folosit:** Am utilizat Gemini 3.5 Flash prin intermediul asistentului de pair programming Antigravity.
-- **Unde te-a ajutat cel mai mult:** A ajutat la corectarea rapidă a porturilor și a hostname-ului Redis în docker-compose, la remedierea bug-ului logic din `/health` și la implementarea structurii securizate non-root în Dockerfile. De asemenea, a simplificat procesul de generare a testelor unitare și a testelor monkey pentru noul API.
+- **Ce ai folosit:** Antigravity CLI Gemini 3.5 Flash
+- **Unde te-a ajutat cel mai mult:** A ajutat la corectarea rapidă a porturilor și a hostname-ului Redis în docker-compose, la remedierea bug-ului logic din `/health` și la implementarea structurii securizate non-root în Dockerfile. De asemenea, a simplificat procesul de generare a testelor unitare și a testelor monkey pentru noul API. (pe scurt, la tot, nu am facut nimic manual, doar am verifica ce a facut)
 - **Unde te-a încurcat sau ți-a dat un răspuns greșit:** La prima adăugare a healthcheck-ului, a recomandat utilizarea `curl`, eșuând deoarece imaginea slim nu îl conține (eroare: `exec: "curl": executable file not found in $PATH`). De asemenea, în timpul optimizării importurilor din `app/main.py`, a sugerat eliminarea `HTMLResponse` ca import nefolosit înainte ca endpoint-ul `/index` să fie implementat, ducând la eroarea `NameError: name 'HTMLResponse' is not defined`.
-- **Cum ai verificat ce-a generat:** Am testat local executând containerele, analizând logurile de health cu `docker inspect`, interogând endpoint-urile prin `curl` de pe host și rulând suita completă de teste unitare direct în containerul Docker.
+- **Cum ai verificat ce-a generat:** Am observat testele rulate, provenienta si rezolvarea erorilor respectiv verificarea vizuala din cod.
 
 ---
 
