@@ -72,23 +72,32 @@ Pentru fiecare problemă, scrie 2-3 propoziții:
 
 Fii cinstit. Nu pierzi puncte dacă spui adevărul, dimpotrivă.
 
-- **Ce ai folosit:** (ChatGPT / Cursor / Copilot / altele)
-- **Unde te-a ajutat cel mai mult:**
-- **Unde te-a încurcat sau ți-a dat un răspuns greșit:** (foarte interesant pentru noi!)
-- **Cum ai verificat ce-a generat:**
+- **Ce ai folosit:** Am utilizat Gemini 3.5 Flash prin intermediul asistentului de pair programming Antigravity.
+- **Unde te-a ajutat cel mai mult:** A ajutat la corectarea rapidă a porturilor și a hostname-ului Redis în docker-compose, la remedierea bug-ului logic din `/health` și la implementarea structurii securizate non-root în Dockerfile. De asemenea, a simplificat procesul de generare a testelor unitare și a testelor monkey pentru noul API.
+- **Unde te-a încurcat sau ți-a dat un răspuns greșit:** La prima adăugare a healthcheck-ului, a recomandat utilizarea `curl`, eșuând deoarece imaginea slim nu îl conține (eroare: `exec: "curl": executable file not found in $PATH`). De asemenea, în timpul optimizării importurilor din `app/main.py`, a sugerat eliminarea `HTMLResponse` ca import nefolosit înainte ca endpoint-ul `/index` să fie implementat, ducând la eroarea `NameError: name 'HTMLResponse' is not defined`.
+- **Cum ai verificat ce-a generat:** Am testat local executând containerele, analizând logurile de health cu `docker inspect`, interogând endpoint-urile prin `curl` de pe host și rulând suita completă de teste unitare direct în containerul Docker.
 
 ---
 
 ## 4. Ce-ai face cu mai mult timp
 
-(Lista scurtă, 3-5 puncte. Arată-ne că ai văzut limitele actuale.)
+Următoarele optimizări sunt evidențiate pe baza logurilor de rulare actuale ale serviciilor:
 
-Idei posibile (nu trebuie să fie toate):
-- Securitate (non-root user, secrets management)
-- Optimizări de imagine
-- Monitoring / logging
-- Resilience (retries, circuit breaker)
-- Pipeline mai bun (linting, security scan, deploy)
+- **Rezolvarea Condiției de Cursă (Race Condition) la Startup**:
+  * *Dovadă în loguri:* Aplicația web declară pornirea completă (`web-1 | INFO: Application startup complete.`) și începe să primească health check-uri (`127.0.0.1 - "GET /health"`) înainte ca Redis să fie complet inițializat și pregătit să accepte conexiuni pe portul TCP (`redis-1 | Server initialized ... Ready to accept connections tcp`).
+  * *Soluție:* Definirea unui block de `healthcheck` pentru Redis în `docker-compose.yml` și utilizarea `depends_on.redis.condition: service_healthy` sub serviciul `web`.
+- **Rularea aplicației fără PID 1 (Gestionare semnale OS)**:
+  * *Dovadă în loguri:* Procesul Uvicorn rulează ca PID 1 în container (`web-1 | INFO: Started server process [1]`), ceea ce înseamnă că nu gestionează corect semnalele de terminare standard (`SIGTERM`). La oprirea containerelor, Docker așteaptă 10 secunde în gol înainte de a omorî containerul abuziv prin `SIGKILL`.
+  * *Soluție:* Adăugarea directivei `init: true` sub serviciul `web` în `docker-compose.yml` pentru a folosi `tini` ca manager de init în container.
+- **Evitarea Poluării Logurilor (Log Noise)**:
+  * *Dovadă în loguri:* Logurile standard sunt inundate la fiecare 10 secunde cu mesaje de tipul `127.0.0.1 - "GET /health HTTP/1.1" 200 OK` generate de testele automate de healthcheck local.
+  * *Soluție:* Configurat logger-ul din FastAPI / Uvicorn sau implementat un middleware dedicat pentru a exclude cererile spre `/health` din access logs.
+- **Configurare securizată pentru Redis în Producție**:
+  * *Dovadă în loguri:* Redis pornește cu avertismentul `# Warning: no config file specified, using the default config.`.
+  * *Soluție:* Adăugarea unui fișier `redis.conf` montat ca volum în container pentru a configura limite de memorie (`maxmemory`), politici de evacuare a datelor (ex: `allkeys-lru`) și autentificare.
+- **Evitarea erorilor 404 pe Root (Polite Redirect)**:
+  * *Dovadă în loguri:* Accesarea rădăcinii `/` sau favicon generează `GET / HTTP/1.1" 404 Not Found`.
+  * *Soluție:* Adăugarea unui handler pe ruta `/` în `app/main.py` care redirecționează automat (`RedirectResponse`) traficul spre `/index`.
 
 ---
 

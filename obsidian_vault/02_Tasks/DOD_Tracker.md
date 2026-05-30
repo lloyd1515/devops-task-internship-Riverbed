@@ -36,5 +36,5 @@
 - [x] **Adaugă un UI minimal pe path-ul `/index`:**. 
   - [x] Returnează o pagină HTML care obtine datele din backend endpoint (`/visits`).
   - [x] Adauga buton de reset ce apeleaza  (`/reset`).
-- [ ] Nice to have CI pipeline succesful on github.
-- [ ] `NOTES.md` e completat.
+- [x] Nice to have CI pipeline succesful on github.
+- [x] `NOTES.md` e completat.
