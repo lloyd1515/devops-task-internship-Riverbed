@@ -27,8 +27,8 @@
 - [x] `GET http://localhost:8000/health` întoarce `200` cu `{"status": "ok", "redis": true}`.
 - [x] `GET http://localhost:8000/visits` incrementează la fiecare request.
 - [x] `docker compose ps` arată serviciul `web` ca `healthy`.
-- [ ] Adaugă un fișier `.env.example` și mută hardcoded values în variabile de mediu.
-- [ ] Optimizează `Dockerfile` (cache layers, image size).
+- [x] Adaugă un fișier `.env.example` și mută hardcoded values în variabile de mediu.
+- [x] Optimizează `Dockerfile` (cache layers, image size).
 - [x] Adaugă un step de linting în CI.
 - [x] **Extinde API-ul cu două endpoint-uri noi pentru counter (cu teste):**
 - [x] `GET /visits/count` — întoarce numărul curent de vizite **fără** să-l incrementeze. 
