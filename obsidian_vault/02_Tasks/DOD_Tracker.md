@@ -13,7 +13,7 @@
 - [x] 1. **Pornește aplicația cu `docker compose up`** și asigură-te că răspunde la `http://localhost:8000/health`.
 - [x] 2. **Verifică că `http://localhost:8000/visits` funcționează** (folosește Redis pentru a număra vizitele).
 - [x] 3. **Adaugă un healthcheck** în `docker-compose.yml` pentru serviciul web (folosește endpoint-ul `/health`).
-- [ ] 4. **Extinde /visits ednpoint** astfel incat sa existe functionalitatea de read `/visits/count` reset `/visits/reset` ** 
+- [x] 4. **Extinde /visits ednpoint** astfel incat sa existe functionalitatea de read `/visits/count` reset `/visits/reset` ** 
 - [ ] 5. **Creaza CI pipeline** ce sa ruleze automat la fiecare git push.
 - [ ] 6. **Completează `NOTES.md`** — copiază `NOTES.md.template` în `NOTES.md` și scrie un writeup scurt (vezi mai jos).
 
@@ -30,11 +30,11 @@
 - [ ] Adaugă un fișier `.env.example` și mută hardcoded values în variabile de mediu.
 - [ ] Optimizează `Dockerfile` (cache layers, image size).
 - [x] Adaugă un step de linting în CI.
-- [ ] **Extinde API-ul cu două endpoint-uri noi pentru counter (cu teste):**
-- [ ] `GET /visits/count` — întoarce numărul curent de vizite **fără** să-l incrementeze. 
-- [ ] `POST /visits/reset` — resetează counter-ul la `0` și întoarce `{"visits": 0}`. 
-- [ ] **Adaugă un UI minimal pe path-ul `/index`:**. 
-  - [ ] Returnează o pagină HTML care obtine datele din backend endpoint (`/visits`).
-  - [ ] Adauga buton de reset ce apeleaza  (`/reset`).
+- [x] **Extinde API-ul cu două endpoint-uri noi pentru counter (cu teste):**
+- [x] `GET /visits/count` — întoarce numărul curent de vizite **fără** să-l incrementeze. 
+- [x] `POST /visits/reset` — resetează counter-ul la `0` și întoarce `{"visits": 0}`. 
+- [x] **Adaugă un UI minimal pe path-ul `/index`:**. 
+  - [x] Returnează o pagină HTML care obtine datele din backend endpoint (`/visits`).
+  - [x] Adauga buton de reset ce apeleaza  (`/reset`).
 - [ ] Nice to have CI pipeline succesful on github.
 - [ ] `NOTES.md` e completat.

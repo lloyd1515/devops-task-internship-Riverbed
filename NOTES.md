@@ -45,7 +45,15 @@ Pentru fiecare problemă, scrie 2-3 propoziții:
 ### Problemă #5 (CI - Pipeline-ul de GitHub Actions)
 - **Simptom:** Jobul `test` din GitHub Actions eșua la rularea `pytest -v` din cauza lipsei comenzii `pytest`.
 - **Cum am diagnosticat-o:** Am analizat fișierul `.github/workflows/ci.yml` și am constatat că se utiliza o versiune învechită de Python (`2.7`) și lipseau pașii de instalare a dependințelor înainte de rularea testelor.
-- **Cum am fixat-o și de ce:** Am actualizat Python la versiunea `3.11` în `.github/workflows/ci.yml`, am configurat memoria cache pentru pip bazată pe `app/requirements.txt` (folosind ca sursă de adevăr documentația oficială [actions/setup-python](https://github.com/actions/setup-python)) pentru o execuție mai rapidă. Am adăugat pasul de instalare a dependințelor, precum și un step dedicat de linting cu `ruff` (folosind `--ignore F401` pentru importurile neutilizate până la extinderea API-ului), pe baza ghidului oficial GitHub [Building and Testing Python](https://docs.github.com/en/actions/use-cases-and-examples/building-and-testing/building-and-testing-python).
+- **Cum am fixat-o și de ce:** Am actualizat Python la versiunea `3.11` în `.github/workflows/ci.yml`, am configurat memoria cache pentru pip bazată pe `app/requirements.txt` (folosind ca sursă de adevăr documentația oficială [actions/setup-python](https://github.com/actions/setup-python)) pentru o execuție mai rapidă. Am adăugat pasul de instalare a dependințelor, precum și un step dedicat de linting cu `ruff` (fără reguli ignorate), pe baza ghidului oficial GitHub [Building and Testing Python](https://docs.github.com/en/actions/use-cases-and-examples/building-and-testing/building-and-testing-python).
+
+### Problemă #6 (app/main.py - Lipsă import HTMLResponse)
+- **Simptom:** Rularea testelor sau accesarea endpoint-ului `/index` eșua cu eroarea în consolă:
+  ```
+  NameError: name 'HTMLResponse' is not defined
+  ```
+- **Cum am diagnosticat-o:** În timpul curățării importurilor nefolosite din commit-urile anterioare, am eliminat `HTMLResponse` crezând că este folosit doar în codul mort/comentat. La implementarea noului endpoint `/index`, acesta a generat excepția de mai sus.
+- **Cum am fixat-o și de ce:** Am re-importat `HTMLResponse` prin adăugarea liniei `from fastapi.responses import HTMLResponse` în `app/main.py`.
 
 ---
 
