@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "02_Tasks/DOD_Tracker.md",
+                "file": "Architecture_Overview.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for DOD_Tracker"
+              "title": "Backlinks for Architecture_Overview"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "02_Tasks/DOD_Tracker.md",
+                "file": "Architecture_Overview.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from DOD_Tracker"
+              "title": "Outgoing links from Architecture_Overview"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "02_Tasks/DOD_Tracker.md",
+                "file": "Architecture_Overview.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of DOD_Tracker"
+              "title": "Outline of Architecture_Overview"
             }
           }
         ]
@@ -185,11 +185,20 @@
   },
   "active": "7af9243a61a28885",
   "lastOpenFiles": [
-    "04_Notes_Prep/NOTES_Draft.md",
-    "devops_topology.canvas",
     "Dashboard.md",
-    "03_Debugging/Bug_Journal.md",
     "02_Tasks/DOD_Tracker.md",
-    "01_Architecture/Architecture_Overview.md"
+    "03_Debugging/Bug_Journal.md",
+    "04_Notes_Prep/NOTES_Draft.md",
+    "TODO.md",
+    "04_Notes_Prep",
+    "03_Debugging",
+    "02_Tasks",
+    "01_Architecture/Architecture_Overview.md",
+    "01_Architecture",
+    "NOTES_Draft.md",
+    "DOD_Tracker.md",
+    "Architecture_Overview.md",
+    "Bug_Journal.md",
+    "devops_topology.canvas"
   ]
 }
